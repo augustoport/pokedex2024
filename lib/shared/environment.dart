@@ -1,3 +1,3 @@
 class Environment {
-  final urlBase = "https://pokeapi.co/api/v2/";
+  final urlBase = "https://pokeapi.co/api/v2";
 }
