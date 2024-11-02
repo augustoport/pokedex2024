@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/core/locator.dart';
-import 'package:pokedex/core/service/dialog_service.dart';
+
+import '../locator.dart';
+import '../service/dialog_service.dart';
 
 class BaseBloc with ChangeNotifier {
   var state;

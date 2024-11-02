@@ -26,8 +26,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     bloc = Provider.of<MainBloc>(context);
     switch (bloc.state) {
-      case AppState.SPLASH:
-        return const SplashPage();
+      // case AppState.SPLASH:
+      //   return const SplashPage();
       case AppState.HOME:
         return const HomePage();
       default:

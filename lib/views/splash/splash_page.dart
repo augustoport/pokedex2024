@@ -34,7 +34,6 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
             padding: EdgeInsets.all(8.0),
             child: Image.asset(
               "assets/images/app_logo.png",
-              scale: 1,
             ),
           ),
         ),

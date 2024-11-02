@@ -12,17 +12,12 @@ class HomeController extends ChangeNotifier {
   void getAll(BuildContext context, int? limit, int page) async {
     try {
       loading = true;
-      allPokesModel = AllPokesModel();
+      notifyListeners();
       allPokesModel = await _apiController.getAll(
           context: context, limit: limit, page: page);
-      allPokesModel?.results?.forEach(
-        (element) {
-          if (element.name != null) {
-            showPokes(element.name!, context);
-          }
-        },
-      );
 
+
+      print(allPokesModel);
       loading = false;
       notifyListeners();
     } finally {
@@ -31,10 +26,21 @@ class HomeController extends ChangeNotifier {
     }
   }
 
-  void showPokes(String name, context) async {
+  void showPokes(context) async {
     try {
-      pokemons.add(await _apiController.getOne(name: name, context: context));
+      loading = true;
       notifyListeners();
-    } finally {}
+
+      for (var i = 0; i < (allPokesModel?.results?.length ?? 0); i++) {
+        PokemonModel? poke = PokemonModel();
+        poke = await _apiController.getOne(
+            name: allPokesModel!.results![i].name!, context: context);
+        pokemons.add(poke);
+      }
+
+    } finally {
+      loading = false;
+      notifyListeners();
+    }
   }
 }
