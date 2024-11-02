@@ -16,7 +16,6 @@ class HomeController extends ChangeNotifier {
       allPokesModel = await _apiController.getAll(
           context: context, limit: limit, page: page);
 
-
       print(allPokesModel);
       loading = false;
       notifyListeners();
@@ -28,19 +27,25 @@ class HomeController extends ChangeNotifier {
 
   void showPokes(context) async {
     try {
+      pokemons = [];
       loading = true;
       notifyListeners();
 
-      for (var i = 0; i < (allPokesModel?.results?.length ?? 0); i++) {
+      for (var i = 0;
+          i <
+              (allPokesModel?.results?.length != null
+                  ? (allPokesModel!.results!.length - 1)
+                  : 0);
+          i++) {
         PokemonModel? poke = PokemonModel();
         poke = await _apiController.getOne(
             name: allPokesModel!.results![i].name!, context: context);
         pokemons.add(poke);
+        print("adicionou");
       }
 
-    } finally {
       loading = false;
       notifyListeners();
-    }
+    } finally {}
   }
 }

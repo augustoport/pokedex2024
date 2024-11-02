@@ -37,10 +37,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Container(
                   padding: EdgeInsets.only(
-                    top: MediaQuery
-                        .of(context)
-                        .padding
-                        .top + 5,
+                    top: MediaQuery.of(context).padding.top + 5,
                     left: 12,
                     right: 12,
                     bottom: 5,
@@ -52,7 +49,10 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Text(
                         "Pokedéx",
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color(0xFF0070B6),
+                        ),
                       ),
                     ),
                     Container(
@@ -78,30 +78,36 @@ class _HomePageState extends State<HomePage> {
                   ]),
                 ),
                 controller.loading
-                    ? CircularProgressIndicator(
-                  color: Color(0xFFFFCC01),
-                )
-                    : Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: List.generate(
-                        controller.pokemons.length,
-                            (index) {
-                          var pokemon = controller.pokemons[index];
-                          return Container(
-                            padding: EdgeInsets.all(10),
-                            margin: EdgeInsets.all(10),
-                            color: Colors.red,
-                            child: Text(
-                              pokemon?.name ?? "Teste",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          );
-                        },
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 25.0),
+                        child: CircularProgressIndicator(
+                          color: Color(0xFFFFCC01),
+                        ),
+                      )
+                    : Container(
+                        height: MediaQuery.of(context).size.height -
+                            (MediaQuery.of(context).padding.top + 5),
+                        child: Expanded(
+                          child: Wrap(runSpacing: 10, spacing: 10, children: [
+                            ListView.builder(
+                                itemCount: controller.pokemons.length,
+                                itemBuilder: (_, index) {
+                                  var pokemon = controller.pokemons[index];
+                                  return PokemonCard(
+                                    image: pokemon?.sprites?.frontDefault ?? "",
+                                    name: pokemon?.name ?? "",
+                                    type: pokemon?.types![0].type?.name ?? "",
+                                  );
+                                }),
+                            /*Row(
+                            children: [
+                              Icon(Icons.arrow_back),
+                              Icon(Icons.arrow_forward),
+                            ],
+                          ),*/
+                          ]),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             );
           }),
@@ -109,3 +115,26 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+class PokemonCard extends StatelessWidget {
+  final String image;
+  final String name;
+  final String type;
+  const PokemonCard(
+      {super.key, required this.image, required this.name, required this.type});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+      ),
+      child: Column(
+        children: [
+          Image.network(image),
+          Text(name),
+          Text(type),
+        ],
+      ),
+    );
+  }
+}
